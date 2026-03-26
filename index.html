@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>M3U8 Generator</title>
+<style>
+body {
+    font-family: Arial;
+    background: #111;
+    color: #fff;
+    text-align: center;
+    padding: 30px;
+}
+input, textarea {
+    width: 80%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+}
+button {
+    padding: 10px 20px;
+    background: #00c853;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+textarea {
+    height: 150px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>مولد رابط M3U8 مع ترجمة 🔥</h2>
+
+<input id="video" placeholder="رابط الفيديو m3u8"><br>
+<input id="subtitle" placeholder="رابط الترجمة srt"><br>
+
+<button onclick="generate()">توليد الرابط</button>
+
+<h3>النتيجة:</h3>
+<textarea id="output"></textarea><br>
+
+<button onclick="download()">تحميل ملف m3u8</button>
+
+<script>
+function generate() {
+    let video = document.getElementById("video").value;
+    let sub = document.getElementById("subtitle").value;
+
+    let result = `#EXTM3U
+#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="Arabic",DEFAULT=YES,AUTOSELECT=YES,URI="${sub}"
+#EXT-X-STREAM-INF:BANDWIDTH=800000,SUBTITLES="subs"
+${video}`;
+
+    document.getElementById("output").value = result;
+}
+
+function download() {
+    let text = document.getElementById("output").value;
+    let blob = new Blob([text], { type: "application/vnd.apple.mpegurl" });
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "video.m3u8";
+    a.click();
+}
+</script>
+
+</body>
+</html>
